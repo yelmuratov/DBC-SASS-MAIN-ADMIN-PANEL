@@ -98,7 +98,7 @@ export default function LoginPage() {
                       </Link>
                     </div>
                     <FormControl>
-                      <div className="relative">
+                      <div className="relative"> 
                         <Input
                           {...field}
                           type={showPassword ? "text" : "password"}

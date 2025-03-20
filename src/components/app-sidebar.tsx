@@ -12,15 +12,12 @@ import {
   FileIcon,
   FileTextIcon,
   FolderIcon,
-  HelpCircleIcon,
   ListIcon,
-  SearchIcon,
   SettingsIcon,
   BuildingIcon,
   UsersIcon,
 } from "lucide-react";
 
-import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
@@ -43,13 +40,8 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   };
 }
 
-export function AppSidebar({ user, ...props }: AppSidebarProps) {
+export function AppSidebar({ ...props }) {
   const data = {
-    user: {
-      name: user.username,
-      email: user.email || `${user.username.toLowerCase()}@example.com`, // Use provided email or generate a fallback
-      avatar: user.avatar || "/avatars/default.jpg", // Use provided avatar or fallback
-    },
     navMain: [
       {
         title: "Companies",
@@ -57,8 +49,8 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
         icon: BuildingIcon,
       },
       {
-        title: "Lifecycle",
-        url: "#",
+        title: "Users",
+        url: "/dashboard/users",
         icon: ListIcon,
       },
       {
@@ -67,7 +59,7 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
         icon: BarChartIcon,
       },
       {
-        title: "Projects",
+        title: "Branches",
         url: "#",
         icon: FolderIcon,
       },
@@ -131,16 +123,6 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
         url: "#",
         icon: SettingsIcon,
       },
-      {
-        title: "Get Help",
-        url: "#",
-        icon: HelpCircleIcon,
-      },
-      {
-        title: "Search",
-        url: "#",
-        icon: SearchIcon,
-      },
     ],
     documents: [
       {
@@ -180,11 +162,11 @@ export function AppSidebar({ user, ...props }: AppSidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        {/* <NavDocuments items={data.documents} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

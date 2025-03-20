@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import api from "@/lib/api";
 
 interface AuthState {
-  user: string | null;
+  user: IUserMe | null;
   isSuperUser: boolean | undefined;
   isAuthenticated: boolean;
   login: (username: string, password: string) => Promise<void>;
@@ -20,21 +20,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (username, password) => {
     try {
       const { data } = await api.post("/users/login/", { username, password });
-
-      console.log("Login Response:", data); 
-
       Cookies.set("access_token", data.data.access, { path: "/", secure: true });
       Cookies.set("refresh_token", data.data.refresh, { path: "/", secure: true });
 
       set({
         user: data.data.username,
-        isSuperUser: true,
-        isAuthenticated: true,
-      });
-
-      console.log("State after login:", {
-        user: data.data.username,
-        isSuperUser: true,
+        isSuperUser: data.data.is_superuser,
         isAuthenticated: true,
       });
     } catch (error) {
@@ -60,17 +51,10 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     try {
       const { data } = await api.get("/users/me/");
-      console.log("User Load Response:", data); 
-
+      console.log(data.data);
       set({
-        user: data.first_name,
-        isSuperUser: true,
-        isAuthenticated: true,
-      });
-
-      console.log("State after loadUser:", {
-        user: data.first_name,
-        isSuperUser: true,
+        user: data.data,
+        isSuperUser: data.data.is_superuser,
         isAuthenticated: true,
       });
     } catch (error) {

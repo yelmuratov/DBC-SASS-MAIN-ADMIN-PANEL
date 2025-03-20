@@ -1,63 +1,64 @@
 import { create } from "zustand";
 import api from "@/lib/api";
 
-interface User {
-  id: number;
-  username: string;
-  email: string;
-  role: string;
-}
-
-interface UserState {
-  users: User[];
-  loading: boolean;
-  fetchUsers: () => Promise<void>;
-  addUser: (user: Omit<User, "id">) => Promise<void>;
-  updateUser: (id: number, user: Partial<User>) => Promise<void>;
-  deleteUser: (id: number) => Promise<void>;
-}
-
 export const useUserStore = create<UserState>((set) => ({
   users: [],
   loading: false,
+  submitting: false,
 
   fetchUsers: async () => {
     set({ loading: true });
     try {
-      const { data } = await api.get("/users/register");
-      set({ users: data, loading: false });
+      const { data } = await api.get<{ data: User[] }>("/users/register/");
+      set({ users: data.data, loading: false });
     } catch (error) {
       console.error("Error fetching users:", error);
       set({ loading: false });
     }
   },
 
-  addUser: async (user) => {
+  addUser: async (user: Omit<User, "id">) => {
+    set({ submitting: true });
     try {
-      const { data } = await api.post("/users/register", user);
-      set((state) => ({ users: [...state.users, data] }));
+      const { data } = await api.post<User>("/users/register/", user);
+      set((state) => ({
+        users: [...state.users, data],
+        submitting: false,
+      }));
     } catch (error) {
       console.error("Error adding user:", error);
+      set({ submitting: false });
+      throw error;
     }
   },
 
-  updateUser: async (id, user) => {
+  updateUser: async (id: number, user: Partial<User>) => {
+    set({ submitting: true });
     try {
-      await api.put(`/users/user/${id}/`, user);
+      const { data } = await api.put<User>(`/users/user/${id}/`, user);
       set((state) => ({
-        users: state.users.map((u) => (u.id === id ? { ...u, ...user } : u)),
+        users: state.users.map((u) => (u.id === id ? { ...u, ...data } : u)),
+        submitting: false,
       }));
     } catch (error) {
       console.error("Error updating user:", error);
+      set({ submitting: false });
+      throw error;
     }
   },
 
-  deleteUser: async (id) => {
+  deleteUser: async (id: number) => {
+    set({ submitting: true });
     try {
       await api.delete(`/users/user/${id}/`);
-      set((state) => ({ users: state.users.filter((u) => u.id !== id) }));
+      set((state) => ({
+        users: state.users.filter((u) => u.id !== id),
+        submitting: false,
+      }));
     } catch (error) {
       console.error("Error deleting user:", error);
+      set({ submitting: false });
+      throw error;
     }
   },
 }));

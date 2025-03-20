@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
+import Spinner from "@/components/spinner";
 
 export default function Home() {
   const { isAuthenticated } = useAuthStore();
@@ -10,11 +11,11 @@ export default function Home() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/dashboard"); // Redirect authenticated users to dashboard
+      router.replace("/dashboard");
     } else {
-      router.replace("/login"); // Redirect unauthenticated users to login
+      router.replace("/login"); 
     }
   }, [isAuthenticated, router]);
 
-  return <div>Loading...</div>; // Show a temporary loading state while redirecting
+  return <Spinner theme="dark"/>;
 }
