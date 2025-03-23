@@ -51,8 +51,8 @@ export default function AddUserModal() {
         company: "",
       });
       setOpen(false);
-    } catch (error) {
-      alert("Failed to add user. Please try again.");
+    }catch (error) {
+      alert(`${error}`);
     }
   };
 

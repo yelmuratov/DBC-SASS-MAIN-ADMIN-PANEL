@@ -4,9 +4,10 @@ import { useEffect } from "react";
 import { useCompanyStore } from "@/store/companyStore";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Trash2, Edit } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import AddCompanyModal from "@/components/AddCompanyModal";
 import EditCompanyModal from "@/components/EditCompanyModal";
+import { Company } from "@/types/company";
 
 export default function CompaniesPage() {
   // Use a selector to explicitly subscribe to the state

@@ -7,7 +7,7 @@ import { ChartAreaInteractive } from "@/components/chart-area-interactive";
 import { SectionCards } from "@/components/section-cards";
 
 export default function DashboardPage() {
-  const { isAuthenticated, isSuperUser, user } = useAuthStore();
+  const { isAuthenticated, isSuperUser } = useAuthStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function DashboardPage() {
   if (!isSuperUser) {
     return (
       <div className="flex items-center justify-center h-screen text-xl font-bold">
-        You are not a super user and you don't have permission for it.
+        You are not a super user and you dont have permission for it.
       </div>
     );
   }
