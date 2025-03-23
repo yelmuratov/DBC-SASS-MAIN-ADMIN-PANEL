@@ -3,11 +3,52 @@
 import { useEffect } from "react";
 import { useUserStore } from "@/store/userStore";
 import { useCompanyStore } from "@/store/companyStore";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import AddUserModal from "@/components/AddUserModal";
 import EditUserModal from "@/components/EditUserModal";
+import { useState, useRef } from "react";
+import { Eye, EyeOff, Copy } from "lucide-react";
+import toast from "react-hot-toast";
+
+function FtpPasswordCell({ password }: { password: string }) {
+  const [visible, setVisible] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleCopy = () => {
+    if (inputRef.current) {
+      navigator.clipboard.writeText(password);
+      toast.success("FTP password copied!");
+    }
+  };
+
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        ref={inputRef}
+        type={visible ? "text" : "password"}
+        value={password}
+        readOnly
+        className="bg-transparent border-none outline-none w-24 text-sm"
+      />
+      <button onClick={() => setVisible(!visible)} type="button">
+        {visible ? <EyeOff size={16} /> : <Eye size={16} />}
+      </button>
+      <button onClick={handleCopy} type="button">
+        <Copy size={16} />
+      </button>
+    </div>
+  );
+}
+
 
 export default function UsersPage() {
   const users = useUserStore((state) => state.users);
@@ -57,6 +98,8 @@ export default function UsersPage() {
             <TableHead>Phone</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Company</TableHead>
+            <TableHead>FTP Username</TableHead>
+            <TableHead>FTP Password</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -70,7 +113,27 @@ export default function UsersPage() {
               <TableCell>{user.email}</TableCell>
               <TableCell>{user.phone || "N/A"}</TableCell>
               <TableCell>{user.role}</TableCell>
-              <TableCell>{getCompanyName(user.company)}</TableCell>
+              {user.company ? (
+                <>
+                  <TableCell>{getCompanyName(user.company)}</TableCell>
+                  <TableCell>
+                    {user.user_company?.ftp_username || "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {user.user_company?.ftp_password ? (
+                      <FtpPasswordCell
+                        password={user.user_company.ftp_password}
+                      />
+                    ) : (
+                      "N/A"
+                    )}
+                  </TableCell>
+                </>
+              ) : (
+                <>
+                  <TableCell colSpan={3}>N/A</TableCell>
+                </>
+              )}
               <TableCell className="flex gap-2">
                 <EditUserModal user={user} />
                 <Button

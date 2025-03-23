@@ -5,7 +5,8 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
-  withCredentials: true, // Ensures cookies are sent with requests
+  withCredentials: true,
+  timeout: 15000, 
 });
 
 // Request Interceptor: Attach Access Token
