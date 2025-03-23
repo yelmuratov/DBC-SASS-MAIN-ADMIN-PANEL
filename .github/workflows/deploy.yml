@@ -48,6 +48,6 @@ jobs:
       - name: Copy Files to Server
         if: success()
         run: |
-          scp -r ./out/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/panel.dbcvision.uz/
+          scp -r ./.next/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/panel.dbcvision.uz/
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
