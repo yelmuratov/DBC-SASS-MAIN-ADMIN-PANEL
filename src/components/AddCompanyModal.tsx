@@ -26,7 +26,7 @@ export default function AddCompanyModal() {
       await fetchCompanies(); // Fallback: Re-fetch the list
       setOpen(false);
     } catch (error) {
-      alert("Failed to add company. Please try again.");
+      alert(`${error}`);
     }
   };
 

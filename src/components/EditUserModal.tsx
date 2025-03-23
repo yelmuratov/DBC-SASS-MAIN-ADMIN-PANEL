@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Edit } from "lucide-react";
+import { User } from "@/types/user";
 
 const userSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
@@ -55,7 +56,7 @@ export default function EditUserModal({ user }: EditUserModalProps) {
       await updateUser(user.id, data);
       setOpen(false);
     } catch (error) {
-      alert("Failed to update user. Please try again.");
+      alert(`${error}`);
     }
   };
 

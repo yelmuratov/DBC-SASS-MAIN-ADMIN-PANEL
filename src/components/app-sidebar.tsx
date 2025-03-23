@@ -31,15 +31,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-// Define the props type for AppSidebar
-interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  user: {
-    username: string;
-    email?: string;
-    avatar?: string;
-  };
-}
-
 export function AppSidebar({ ...props }) {
   const data = {
     navMain: [

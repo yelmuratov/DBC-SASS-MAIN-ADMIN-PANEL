@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import Cookies from "js-cookie";
 import api from "@/lib/api";
+import { IUserMe } from "@/types/user";
 
 interface AuthState {
   user: IUserMe | null;
@@ -29,7 +30,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         isAuthenticated: true,
       });
     } catch (error) {
-      throw new Error("Login failed.");
+      throw new Error(`${error}`);
     }
   },
 
@@ -61,6 +62,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       Cookies.remove("access_token");
       Cookies.remove("refresh_token");
       set({ user: null, isSuperUser: false, isAuthenticated: false });
+      console.error(`${error}`);
     }
   },
 }));

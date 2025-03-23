@@ -47,7 +47,7 @@ export default function LoginPage() {
       await login(data.username, data.password);
       router.push("/dashboard");
     } catch (err) {
-      setError("Invalid credentials. Please try again.");
+      setError(`${err}`);
     }
   };
 

@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Edit } from "lucide-react";
+import { Company } from "@/types/company";
 
 const companySchema = z.object({
   name: z.string().min(1, "Company name is required"),
@@ -37,8 +38,8 @@ export default function EditCompanyModal({ company }: EditCompanyModalProps) {
       await updateCompany(company.id, { ...data, id: company.id });
       await fetchCompanies(); // Fallback: Re-fetch the list
       setOpen(false);
-    } catch (error) {
-      alert("Failed to update company. Please try again.");
+    }catch (error) {
+      alert(`${error}`);
     }
   };
 

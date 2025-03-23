@@ -33,7 +33,7 @@ export default function ForgotPasswordPage() {
       await api.post("/users/reset-password/", data);
       setMessage("Password reset link has been sent to your email.");
     } catch (err) {
-      setError("Failed to send reset link. Please try again.");
+      setError(`${err}`);
     }
   };
 

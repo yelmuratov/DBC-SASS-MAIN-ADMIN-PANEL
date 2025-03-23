@@ -17,7 +17,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       setLoading(false);
     }
     checkAuth();
-  }, []);
+  }, [loadUser]);
 
   useEffect(() => {
     if (!loading && !isAuthenticated && pathname !== "/login") {
@@ -32,7 +32,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
   if (isAuthenticated && !isSuperUser) {
     return (
       <div className="flex items-center justify-center h-screen text-xl font-bold">
-        You are not a super user and you don't have permission for it.
+        You are not a super user and you dont have permission for it.
       </div>
     );
   }

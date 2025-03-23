@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import api from "@/lib/api";
+import { Company, ICompany,CompanyState } from "@/types/company";
 
 export const useCompanyStore = create<CompanyState>((set) => ({
   companies: [],

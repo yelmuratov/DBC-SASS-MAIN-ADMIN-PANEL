@@ -1,4 +1,4 @@
-interface IUser {
+export interface IUser {
     username: string;
     refresh: string;
     access: string;
@@ -10,14 +10,14 @@ interface IMetadata {
     version: string;
 }
 
-interface IApiResponse {
+export interface IApiResponse {
     status: string;
     code: number;
     data: IUser;
     metadata: IMetadata;
 }
 
-interface IUserMe{
+export interface IUserMe{
     id: number;
     first_name: string;
     last_name: string;
@@ -41,7 +41,7 @@ interface IUserMe{
     };
 }
 
-interface User {
+export interface User {
     id: number;
     first_name: string;
     last_name: string;
@@ -52,7 +52,7 @@ interface User {
     company: number; // Company ID
   }
   
-  interface UserState {
+export  interface UserState {
     users: User[];
     loading: boolean;
     submitting: boolean;

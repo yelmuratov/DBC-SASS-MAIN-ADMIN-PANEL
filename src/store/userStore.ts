@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import api from "@/lib/api";
+import { User, UserState } from "@/types/user";
 
 export const useUserStore = create<UserState>((set) => ({
   users: [],
