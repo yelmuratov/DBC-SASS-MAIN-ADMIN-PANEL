@@ -31,9 +31,19 @@ jobs:
         env:
           NODE_ENV: production
 
-      # Only proceed with deployment if build succeeds
+      # Set up SSH key for deployment
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+
+      # Deploy to Production Server (create directory)
       - name: Deploy to Production Server
-        if: success()  # This ensures deployment only runs if previous steps succeed
+        if: success()
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -44,10 +54,10 @@ jobs:
             mkdir -p /var/www/panel.dbcvision.uz
             echo "Deployment directory prepared"
 
-      # Copy files only if build succeeds
+      # Copy files to server
       - name: Copy Files to Server
         if: success()
         run: |
-          scp -r ./.next/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/panel.dbcvision.uz/
+          scp -r -o StrictHostKeyChecking=no ./.next/* ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/panel.dbcvision.uz/
         env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
