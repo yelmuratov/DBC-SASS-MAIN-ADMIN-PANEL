@@ -52,12 +52,12 @@ export interface User {
     company: number; // Company ID
   }
   
-export  interface UserState {
-    users: User[];
+  export interface UserState {
+    users: IUserMe[];
     loading: boolean;
     submitting: boolean;
     fetchUsers: () => Promise<void>;
-    addUser: (user: Omit<User, "id">) => Promise<void>;
-    updateUser: (id: number, user: Partial<User>) => Promise<void>;
+    addUser: (user: Omit<IUserMe, "id" | "user_company">) => Promise<void>;
+    updateUser: (id: number, user: Partial<IUserMe>) => Promise<void>;
     deleteUser: (id: number) => Promise<void>;
   }

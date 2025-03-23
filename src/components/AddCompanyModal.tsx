@@ -23,7 +23,7 @@ export default function AddCompanyModal() {
     try {
       await addCompany({ ...formData, is_active: true });
       setFormData({ name: "", address: "", phone: "", email: "", website: "" });
-      await fetchCompanies(); // Fallback: Re-fetch the list
+      await fetchCompanies();
       setOpen(false);
     } catch (error) {
       alert(`${error}`);

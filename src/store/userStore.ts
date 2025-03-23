@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import api from "@/lib/api";
-import { User, UserState } from "@/types/user";
+import { IUserMe, User, UserState } from "@/types/user";
 
 export const useUserStore = create<UserState>((set) => ({
   users: [],
@@ -10,7 +10,7 @@ export const useUserStore = create<UserState>((set) => ({
   fetchUsers: async () => {
     set({ loading: true });
     try {
-      const { data } = await api.get<{ data: User[] }>("/users/register/");
+      const { data } = await api.get<{ data: IUserMe[] }>("/users/register/");
       set({ users: data.data, loading: false });
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -18,10 +18,10 @@ export const useUserStore = create<UserState>((set) => ({
     }
   },
 
-  addUser: async (user: Omit<User, "id">) => {
+  addUser: async (user: Omit<IUserMe, "id" | "user_company">) => {
     set({ submitting: true });
     try {
-      const { data } = await api.post<User>("/users/register/", user);
+      const { data } = await api.post<IUserMe>("/users/register/", user);
       set((state) => ({
         users: [...state.users, data],
         submitting: false,
@@ -32,7 +32,7 @@ export const useUserStore = create<UserState>((set) => ({
       throw error;
     }
   },
-
+  
   updateUser: async (id: number, user: Partial<User>) => {
     set({ submitting: true });
     try {

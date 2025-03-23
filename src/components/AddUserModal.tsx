@@ -22,7 +22,7 @@ export default function AddUserModal() {
     company: "", // Will be set via the select dropdown
   });
 
-  const { addUser, submitting } = useUserStore();
+  const { addUser, submitting,fetchUsers } = useUserStore();
   const { companies, fetchCompanies } = useCompanyStore();
 
   // Fetch companies when the modal opens
@@ -51,6 +51,7 @@ export default function AddUserModal() {
         company: "",
       });
       setOpen(false);
+      await fetchUsers();
     }catch (error) {
       alert(`${error}`);
     }
