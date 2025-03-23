@@ -37,7 +37,6 @@ export default function CompaniesPage() {
         <h1 className="text-2xl font-semibold">Manage Companies</h1>
         <AddCompanyModal />
       </div>
-
       <Table>
         <TableHeader>
           <TableRow>
